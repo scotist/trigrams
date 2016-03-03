@@ -1,46 +1,40 @@
+
 """Generate random text based on model text."""
 import io
 import string
 
 
 def read_file(path):
-    """Get sample text."""
+    """Produce random text."""
     fh = io.open(path)
-    prep_list = tokenize(fh.read())
-    # print(prep_list)
-    return prep_list
+    tokenize(fh.read())
+    return fh.read()
 
 
 def tokenize(data):
-    """Split out sample text and remove punctuation."""
+    """Split out sample text and removes punctuation."""
     for char in string.punctuation:
         data = data.replace(char, "")
     data_list = data.split()
+    tuplize(data_list)
     return data_list
 
 
-def dictionize(list):
-    """Put our text in a dict."""
-    trigrams = {}
-    while len(list) >= 3:
-        first_key = list.pop(0)
-        second_key = list[0]
-        value = list[1]
-        if (first_key, second_key) in trigrams.keys():
-            trigrams[(first_key, second_key)].append(value)
-        else:
-            trigrams[(first_key, second_key)] = [value]
-    print(trigrams)
-    return trigrams
-
-
-def main():
-    """Put it all together."""
-    pass
-
+def tuplize(d_list):
+    """Convert list to a list of tuples."""
+    d = {}
+    for i in range(len(d_list) - 2):
+        tup = (d_list[i], d_list[i + 1])
+        d.setdefault(tup, []).append(d_list[i + 2])
+        # if d[tup]:
+        #     d[tup].append(d_list[i + 2])
+        # else:
+        #     d[tup] = [d_list[i + 2]]
+    print(d)
+    return d
 
 if __name__ == '__main__':
     pass
 
 
-dictionize(read_file("sample.txt"))
+read_file("sample.txt")
