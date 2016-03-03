@@ -1,4 +1,4 @@
-#!/Users/MunirIbrahim/401d2/week-1/day-3/trigrams/bin/python
+#!/Users/michaelsullivan/projects/python/trigrams/bin/python
 
 import sys
 import getopt

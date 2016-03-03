@@ -40,7 +40,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/MunirIbrahim/401d2/week-1/day-3/trigrams"
+VIRTUAL_ENV="/Users/michaelsullivan/projects/python/trigrams"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

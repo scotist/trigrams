@@ -4,31 +4,43 @@ import string
 
 
 def read_file(path):
-    """Produce random text."""
+    """Get sample text."""
     fh = io.open(path)
-    tokenize(fh.read())
-    return fh.read()
+    prep_list = tokenize(fh.read())
+    # print(prep_list)
+    return prep_list
 
 
 def tokenize(data):
-	"""Splits out sample text and removes punctuation."""
+    """Split out sample text and remove punctuation."""
     for char in string.punctuation:
         data = data.replace(char, "")
     data_list = data.split()
-    print(data_list)
     return data_list
 
 
-def tuplize():
-	"""Convert list to a list of tuples."""
-
-
-def dictionize():
+def dictionize(list):
     """Put our text in a dict."""
+    trigrams = {}
+    while len(list) >= 3:
+        first_key = list.pop(0)
+        second_key = list[0]
+        value = list[1]
+        if (first_key, second_key) in trigrams.keys():
+            trigrams[(first_key, second_key)].append(value)
+        else:
+            trigrams[(first_key, second_key)] = [value]
+    print(trigrams)
+    return trigrams
+
+
+def main():
+    """Put it all together."""
+    pass
 
 
 if __name__ == '__main__':
     pass
 
 
-read_file("sample.txt")
+dictionize(read_file("sample.txt"))
