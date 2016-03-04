@@ -51,7 +51,11 @@ def make_new_text(num, dict):
 
 def main(num, path):
     """Print new text."""
-
+    read = read_file(path)
+    tokenize = tokenize(data)
+    tuplize = tuplize(d_list)
+    make = make_new_text(num, dict)
+    return
 
 
 main(500, "sample.txt")
