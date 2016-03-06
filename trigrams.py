@@ -1,89 +1,72 @@
+# -*- coding; utf-8 -*-
 """Generate random text based on model text."""
 import io
-import string
 import random
+import sys
 
 
 def read_file(path):
-    """Get sample text."""
-    fh = io.open(path)
-    prep_list = tokenize(fh.read())
-    # print(prep_list)
-    return prep_list
+    """Read a file and return the text."""
+    file = io.open(path, encoding='utf-8')
+    text = file.read()
+    file.close()
+    return text
 
 
-def tokenize(data):
-    """Split out sample text and removes punctuation."""
-    for char in string.punctuation:
-        data = data.replace(char, "")
-    data_list = data.split()
-    tuplize(data_list)
-    return data_list
-
-
-def tuplize(d_list):
-    """Convert list to a list of tuples."""
+def trigramize(text):
+    """Convert text to a dictionary for later use."""
     dictionary = {}
-    for i in range(len(d_list) - 2):
-        dict_keys = (d_list[i], d_list[i + 1])
-        dictionary.setdefault(dict_keys, []).append(d_list[i + 2])
-    # first_two_words(dictionary)
-    make_new_text(dictionary)
+    while len(text.split(" ")) > 2:
+        split_text = text.split(" ", 3)
+        keys = (split_text[0], split_text[1])
+        value = split_text[2]
+        if keys not in dictionary:
+            dictionary[keys] = [value]
+        else:
+            new_value = dictionary.get(keys)
+            new_value.append(value)
+            dictionary[keys] = new_value
+        length = len(split_text[0]) + 1
+        text = text[length:]
     return dictionary
 
 
-def make_new_text(num, dict):
-    """Make a random new text using the dictionary."""
-    keys = list(dict.keys())
-    first_two_words = keys[random.randint(0, len(keys) - 1)]
-    new_text = first_two_words.split(" ")
-    while len(new_text) < num:
-        new_key = "{0} {1}".format(new_text[-2], new_text[-1])
-        if new_key in dict:
-            value = random.choice(dict[new_key])
-            new_text.append(value)
-        else:
-            value = keys[random.randint(0, len(keys) - 1)]
-            value = value.split(" ")
-            new_text = new_text + value
+def rand_words(dictionary, new_text):
+    """Begin new text with random key from dictionary."""
+    random_key = random.choice(dictionary.keys())
+    first_word = str(random_key[0])
+    second_word = str(random_key[1])
+    third_word = random.choice(dictionary[random_key])
+    new_text.extend([first_word, second_word, third_word])
     return new_text
 
 
-def main(num, path):
-    """Print new text."""
-    read = read_file(path)
-    tokenize = tokenize(data)
-    tuplize = tuplize(d_list)
-    make = make_new_text(num, dict)
-    return
+def make_new_text(dictionary, n):
+    """Make a new text using random entries from the dictionary."""
+    new_text = []
+    rand_words(dictionary, new_text)
+    while len(new_text) < n:
+        latest = (new_text[-2], new_text[-1])
+        if latest in dictionary:
+            fetch_latest = random.choice(dictionary[latest])
+            new_text.append(fetch_latest)
+        else:
+            rand_words(dictionary, new_text)
+    return " ".join(new_text)
 
 
-main(500, "sample.txt")
+def main(path, n):
+    """Process trigramize and make_new_text to create new text from file."""
+    text = read_file(path)
+    trigrams = trigramize(text)
+    product = make_new_text(trigrams, n)
+    print(product)
+    sys.exit(0)
 
 
-# def first_two_words(dict):
-#     """Create a random new text using the dictionary."""
-#     random_key = random.choice(list(dict.keys()))
-#     new_text = [' '.join((random_key[0], random_key[1]))]
-#     create_paragraph(random_key, new_text, dict)
-#     return new_text
+main("sample.txt", 100,)
 
-
-# def create_paragraph(keys, new_text, dict):
-#     """Create the whole paragraph."""
-#     random_word = (keys[0], keys[1])
-#     while dict.get(random_word, None):
-#         if new_text[-1] is None:
-#             break
-#         new_text.append(random.choice(dict[random_word]))
-#         random_word = (new_text[-2], new_text[-1])
-#         # continue
-#     print(new_text)
-#     # print(dict)
-
-
-if __name__ == '__main__':
-    pass
-
-
-read_file("sample.txt")
+if __name__ == "__main__":
+    path = sys.argv[1]
+    n = sys.argv[2]
+    main(path, n)
