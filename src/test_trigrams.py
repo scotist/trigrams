@@ -12,9 +12,6 @@ TEST_DICTIONARY = [
 ]
 
 
-# TEST_RANDOM = [{("This", "is"): ["TDD."]}, [""], ["This", "is", "TTD."]]
-
-
 @pytest.mark.parametrize('path, result', TEST_FILE)
 def test_read_file(path, result):
     """Test to see that correct file path is openned."""
@@ -27,10 +24,3 @@ def test_trigramize(text, result):
     """Test to see that files are put into dict correctly."""
     from trigrams import trigramize
     assert trigramize(text) == result
-
-
-# @pytest.mark.parametrize('dictionary, new_text, result', TEST_RANDOM)
-# def test_rand_words(dictionary, new_text, result):
-#     """Test to see if random word is displayed."""
-#     from trigrams import rand_words
-#     assert rand_words(dictionary, new_text) == result
