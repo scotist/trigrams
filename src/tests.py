@@ -3,7 +3,7 @@
 import pytest
 
 TEST_FILE = [
-    ("text.txt", "This is my test file. It is for a test. There are many like it but this one is mine.")
+    ("sample.txt", "This is my test file. It is for a test. There are many like it but this one is mine.")
 ]
 
 
