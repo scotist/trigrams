@@ -16,6 +16,7 @@ def read_file(path):
 def trigramize(text):
     """Convert text to a dictionary for later use."""
     dictionary = {}
+    text = text.replace('\n', ' ')
     while len(text.split(" ")) > 2:
         split_text = text.split(" ", 3)
         keys = (split_text[0], split_text[1])
@@ -33,7 +34,7 @@ def trigramize(text):
 
 def rand_words(dictionary, new_text):
     """Begin new text with random key from dictionary."""
-    random_key = random.choice(dictionary.keys())
+    random_key = random.choice(list(dictionary.keys()))
     first_word = str(random_key[0])
     second_word = str(random_key[1])
     third_word = random.choice(dictionary[random_key])
@@ -64,9 +65,7 @@ def main(path, n):
     sys.exit(0)
 
 
-main("sample.txt", 100,)
-
 if __name__ == "__main__":
     path = sys.argv[1]
     n = sys.argv[2]
-    main(path, n)
+    main(path, int(n))
