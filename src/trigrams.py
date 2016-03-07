@@ -64,7 +64,7 @@ def main(path, n):
     sys.exit(0)
 
 
-main("src/sample.txt", 100,)
+main("sample.txt", 100,)
 
 if __name__ == "__main__":
     path = sys.argv[1]

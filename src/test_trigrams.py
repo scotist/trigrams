@@ -20,8 +20,7 @@ TEST_DICTIONARY = [
 @pytest.mark.parametrize('path, result', TEST_FILE)
 def test_read_file(path, result):
     from trigrams import read_file
-    # assert read_file(path) == result
-    assert 1 = 1
+    assert read_file(path) == result
 
 
 @pytest.mark.parametrize('text, result', TEST_FILE)
